@@ -416,4 +416,82 @@ mod tests {
         )
         .is_empty());
     }
+
+    fn measured_cfg() -> Config {
+        Config {
+            max_weight: 0.6,
+            mean_weight: 0.4,
+            correlation: 0.5,
+            candidates: 5,
+            time_budget_s: 5.0,
+        }
+    }
+
+    #[test]
+    fn measured_audit_profile_flips_to_adcs_esc1() {
+        // Regression on the lab-measured AUDIT profile (profiles/vulnad-hyperv-audit.json)
+        // and docs/VALIDATION.md: with measured HasSession=65 / AdminTo=34 / ADCSESC1=42,
+        // the 1-hop ADCS ESC1 route (42.0) must beat the 4-hop session-hijack chain (49.3).
+        // Proves DeadAir reproduces the Python engine's calibrated decision.
+        let sg = ScoredGraph {
+            nodes: vec![
+                node("ALICE"),
+                node("DA"),
+                node("HELPDESK"),
+                node("WS"),
+                node("SVC"),
+            ],
+            edges: vec![
+                edge("ALICE", "DA", "ADCSESC1", 42.0),
+                edge("ALICE", "HELPDESK", "MemberOf", 2.0),
+                edge("HELPDESK", "WS", "AdminTo", 34.0),
+                edge("WS", "SVC", "HasSession", 65.0),
+                edge("SVC", "DA", "MemberOf", 2.0),
+            ],
+        };
+        let empty = HashSet::new();
+        let g = Graph::build(&sg, &empty, &empty, &empty);
+        let paths = solve(
+            &g,
+            g.resolve("ALICE").unwrap(),
+            g.resolve("DA").unwrap(),
+            5,
+            "noise",
+            &measured_cfg(),
+        );
+        assert_eq!(paths[0].hops, 1);
+        assert!((paths[0].path_score - 42.0).abs() < 1e-6);
+        assert_eq!(paths[1].hops, 4);
+        assert!((paths[1].path_score - 49.3).abs() < 1e-6);
+    }
+
+    #[test]
+    fn measured_edr_dcsync_is_the_loud_option() {
+        // Regression on the lab-measured EDR profile: DCSync bumps to 85, so the quiet
+        // 2-hop ADCS enrollment route (Enroll 36 -> ADCSESC1 42 = 40.8) must be preferred
+        // over the 1-hop DCSync (85). Locks the measured EDR value into the engine.
+        let sg = ScoredGraph {
+            nodes: vec![node("ALICE"), node("DA"), node("CA")],
+            edges: vec![
+                edge("ALICE", "DA", "DCSync", 85.0),
+                edge("ALICE", "CA", "Enroll", 36.0),
+                edge("CA", "DA", "ADCSESC1", 42.0),
+            ],
+        };
+        let empty = HashSet::new();
+        let g = Graph::build(&sg, &empty, &empty, &empty);
+        let paths = solve(
+            &g,
+            g.resolve("ALICE").unwrap(),
+            g.resolve("DA").unwrap(),
+            5,
+            "noise",
+            &measured_cfg(),
+        );
+        assert_eq!(paths[0].hops, 2);
+        assert!((paths[0].path_score - 40.8).abs() < 1e-6);
+        // the DCSync single hop is present but louder
+        let dcsync = paths.iter().find(|p| p.hops == 1).unwrap();
+        assert!((dcsync.path_score - 85.0).abs() < 1e-6);
+    }
 }

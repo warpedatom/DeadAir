@@ -1,6 +1,6 @@
 [package]
 name = "deadair"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 description = "Fast noise-weighted Active Directory attack-path solver - the native engine core for NoiseHound"
 license = "MIT"
