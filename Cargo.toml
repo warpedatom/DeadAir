@@ -6,8 +6,8 @@ description = "Fast noise-weighted Active Directory attack-path solver - the nat
 license = "MIT"
 authors = ["Velkris"]
 readme = "README.md"
-repository = "https://github.com/warpedatom/deadair"
-homepage = "https://github.com/warpedatom/deadair"
+repository = "https://github.com/warpedatom/DeadAir"
+homepage = "https://github.com/warpedatom/DeadAir"
 keywords = ["bloodhound", "active-directory", "pathfinding", "opsec", "detection"]
 categories = ["command-line-utilities"]
 

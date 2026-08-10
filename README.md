@@ -1,5 +1,15 @@
 # DeadAir
 
+<p align="center">
+  <a href="https://crates.io/crates/deadair"><img src="https://img.shields.io/crates/v/deadair" alt="crates.io"></a>
+  <a href="https://github.com/warpedatom/DeadAir/releases"><img src="https://img.shields.io/github/v/release/warpedatom/DeadAir" alt="Release"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/github/license/warpedatom/DeadAir" alt="License"></a>
+  <img src="https://img.shields.io/badge/Built%20with-Rust-CE422B?logo=rust&logoColor=white" alt="Built with Rust">
+  <a href="https://github.com/warpedatom/DeadAir/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/warpedatom/DeadAir/ci.yml?branch=main&label=CI" alt="CI"></a>
+  <a href="./SECURITY.md"><img src="https://img.shields.io/badge/Security-Policy-green" alt="Security policy"></a>
+  <a href="https://x.com/warped_atom"><img src="https://img.shields.io/badge/X-%40warped__atom-000000?logo=x&logoColor=white" alt="X (Twitter): @warped_atom"></a>
+</p>
+
 **Fast noise-weighted Active Directory attack-path solver - the native engine core for [NoiseHound](../NoiseHound).**
 _DreadHost Research_
 
