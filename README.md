@@ -10,7 +10,7 @@
   <a href="https://x.com/warped_atom"><img src="https://img.shields.io/badge/X-%40warped__atom-000000?logo=x&logoColor=white" alt="X (Twitter): @warped_atom"></a>
 </p>
 
-**Fast noise-weighted Active Directory attack-path solver - the native engine core for [NoiseHound](../NoiseHound).**
+**Fast noise-weighted Active Directory attack-path solver - the native engine core for [NoiseHound](https://github.com/warpedatom/NoiseHound).**
 _DreadHost Research_
 
 DeadAir is to NoiseHound what OffsetScan is to OffsetInspect: the compiled,
