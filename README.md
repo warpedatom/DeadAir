@@ -21,6 +21,10 @@ same ranked-paths JSON NoiseHound's own solver produces.
 
 > "Dead air" - the route through no signal. For authorized security testing only.
 
+> **See it end to end:** the [Operator Walkthrough](https://github.com/warpedatom/NoiseHound/blob/main/docs/WALKTHROUGH.md)
+> in NoiseHound covers DeadAir's cross-engine parity, standalone usage, and
+> ranking modes with worked examples (Part 3).
+
 ## Build
 
 ```bash
